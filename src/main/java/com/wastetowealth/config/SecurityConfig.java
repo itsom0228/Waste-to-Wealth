@@ -57,8 +57,8 @@ public class SecurityConfig {
                 .requestMatchers("/WEB-INF/views/**").permitAll()
                 // Static resources
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico").permitAll()
-                // Public landing and information pages
-                .requestMatchers("/", "/home", "/marketplace/**", "/how-it-works", "/about", "/contact").permitAll()
+                // Public landing, health-check and information pages
+                .requestMatchers("/", "/home", "/marketplace/**", "/how-it-works", "/about", "/contact", "/ping", "/health", "/api/health").permitAll()
                 // Authentication and registration endpoints
                 .requestMatchers("/login", "/register", "/register-process", "/access-denied").permitAll()
                 // Role-based routes

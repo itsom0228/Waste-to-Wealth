@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 /**
  * Waste to Wealth - Farm Waste to Money Platform
  * 
@@ -13,6 +15,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * and embedded Tomcat JSP compilation.
  */
 @SpringBootApplication
+@EnableScheduling
 public class WasteToWealthApplication extends SpringBootServletInitializer {
 
     @Override
