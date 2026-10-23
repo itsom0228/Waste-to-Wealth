@@ -30,7 +30,7 @@ COPY --from=builder /workspace/target/*.war app.war
 # ==============================================================================
 
 # Server & Profile Configuration
-ENV PORT=8080
+ENV PORT=10000
 ENV SPRING_PROFILES_ACTIVE=dev
 
 # Database Configuration (Aiven Cloud MySQL)
@@ -43,8 +43,8 @@ ENV DB_PASS_B64="QVZOU194VTBZbFhwXzFNZ0c3dnN5SkY3"
 # JVM Performance & Container Optimization
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
 
-# Expose Web Port
-EXPOSE 8080
+# Expose Web Port (Render default port is 10000)
+EXPOSE 10000
 
 # Execute Spring Boot Application with Dynamic Port Binding and Injected Aiven Credentials
 ENTRYPOINT ["sh", "-c", "export DB_PASSWORD=$(echo $DB_PASS_B64 | base64 -d); java $JAVA_OPTS -Dserver.port=${PORT} -Dspring.datasource.password=\"$DB_PASSWORD\" -Dspring.datasource.username=\"$DB_USER\" -Dspring.datasource.url=\"jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=PREFERRED&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true\" -jar app.war"]
