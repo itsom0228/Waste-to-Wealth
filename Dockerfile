@@ -40,13 +40,6 @@ ENV DB_NAME=waste_to_wealth
 ENV DB_USER=root
 ENV DB_PASSWORD=Python@123
 
-# Cloud Database URL Override (Optional - leave empty for auto DB_HOST construction)
-ENV SPRING_DATASOURCE_URL=""
-ENV DATABASE_URL=""
-
-# Render Keep-Alive & Public App URL (Optional override, Render sets RENDER_EXTERNAL_URL)
-ENV APP_URL=""
-ENV RENDER_EXTERNAL_URL=""
 
 # JVM Performance & Container Optimization
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"

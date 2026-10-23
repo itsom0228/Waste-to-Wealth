@@ -12,12 +12,12 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: dev
       - key: DB_HOST
-        sync: false
+        value: localhost
       - key: DB_PORT
         value: 3306
       - key: DB_NAME
         value: waste_to_wealth
       - key: DB_USER
-        sync: false
+        value: root
       - key: DB_PASSWORD
-        sync: false
+        value: Python@123
