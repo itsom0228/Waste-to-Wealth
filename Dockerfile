@@ -38,7 +38,7 @@ ENV DB_HOST=mysql-19ea9bc6-onkarsarpane-2682.j.aivencloud.com
 ENV DB_PORT=22864
 ENV DB_NAME=defaultdb
 ENV DB_USER=avnadmin
-
+ENV DB_PASS_B64="QVZOU194VTBZbFhwXzFNZ0c3dnN5SkY3"
 
 # JVM Performance & Container Optimization
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
@@ -46,5 +46,5 @@ ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encodin
 # Expose Web Port
 EXPOSE 8080
 
-# Execute Spring Boot Application with Dynamic Port Binding
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT} -jar app.war"]
+# Execute Spring Boot Application with Dynamic Port Binding and Injected Aiven Credentials
+ENTRYPOINT ["sh", "-c", "export DB_PASSWORD=$(echo $DB_PASS_B64 | base64 -d); java $JAVA_OPTS -Dserver.port=${PORT} -Dspring.datasource.password=\"$DB_PASSWORD\" -Dspring.datasource.username=\"$DB_USER\" -Dspring.datasource.url=\"jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslMode=PREFERRED&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8&autoReconnect=true\" -jar app.war"]
