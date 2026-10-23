@@ -33,12 +33,11 @@ COPY --from=builder /workspace/target/*.war app.war
 ENV PORT=8080
 ENV SPRING_PROFILES_ACTIVE=dev
 
-# Database Configuration (Default MySQL Credentials)
-ENV DB_HOST=localhost
-ENV DB_PORT=3306
-ENV DB_NAME=waste_to_wealth
-ENV DB_USER=root
-ENV DB_PASSWORD=Python@123
+# Database Configuration (Aiven Cloud MySQL)
+ENV DB_HOST=mysql-19ea9bc6-onkarsarpane-2682.j.aivencloud.com
+ENV DB_PORT=22864
+ENV DB_NAME=defaultdb
+ENV DB_USER=avnadmin
 
 
 # JVM Performance & Container Optimization
