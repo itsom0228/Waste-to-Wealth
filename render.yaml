@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: waste-to-wealth
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: SPRING_PROFILES_ACTIVE
+        value: dev
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: 3306
+      - key: DB_NAME
+        value: waste_to_wealth
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
