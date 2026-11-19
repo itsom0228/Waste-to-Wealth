@@ -25,6 +25,9 @@ WORKDIR /app
 # Copy built WAR artifact from builder stage
 COPY --from=builder /workspace/target/*.war app.war
 
+# Create data directory for embedded persistence fallback
+RUN mkdir -p /app/data
+
 # ==============================================================================
 # ENVIRONMENT VARIABLES (Can be overridden by Render Dashboard if needed)
 # ==============================================================================
@@ -33,12 +36,9 @@ COPY --from=builder /workspace/target/*.war app.war
 ENV PORT=10000
 ENV SPRING_PROFILES_ACTIVE=dev
 
-# Database Configuration (Aiven Cloud MySQL)
-ENV DB_HOST=mysql-19ea9bc6-onkarsarpane-2682.j.aivencloud.com
-ENV DB_PORT=22864
-ENV DB_NAME=defaultdb
-ENV DB_USER=avnadmin
-ENV DB_PASS_B64="QVZOU194VTBZbFhwXzFNZ0c3dnN5SkY3"
+# Database Configuration (Optional: set DATABASE_URL or DB_HOST in dashboard for MySQL)
+ENV DB_PORT=3306
+ENV DB_NAME=waste_to_wealth
 
 # JVM Performance & Container Optimization
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"

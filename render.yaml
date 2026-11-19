@@ -11,13 +11,15 @@ services:
         value: 10000
       - key: SPRING_PROFILES_ACTIVE
         value: dev
+      - key: DATABASE_URL
+        sync: false
       - key: DB_HOST
-        value: mysql-19ea9bc6-onkarsarpane-2682.j.aivencloud.com
+        sync: false
       - key: DB_PORT
-        value: 22864
+        value: 3306
       - key: DB_NAME
-        value: defaultdb
+        value: waste_to_wealth
       - key: DB_USER
-        value: avnadmin
+        sync: false
       - key: DB_PASSWORD
         sync: false

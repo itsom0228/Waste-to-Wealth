@@ -34,3 +34,6 @@ target/
 *.log
 uploads/
 temp/
+data/
+*.mv.db
+

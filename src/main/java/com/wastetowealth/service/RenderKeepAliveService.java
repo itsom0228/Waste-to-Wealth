@@ -21,9 +21,7 @@ public class RenderKeepAliveService {
 
     private static final Logger log = LoggerFactory.getLogger(RenderKeepAliveService.class);
 
-    private final HttpClient httpClient = HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(10))
-            .build();
+    private HttpClient httpClient;
 
     // Render automatically provides RENDER_EXTERNAL_URL (e.g. https://waste-to-wealth.onrender.com)
     @Value("${RENDER_EXTERNAL_URL:#{null}}")
@@ -32,6 +30,19 @@ public class RenderKeepAliveService {
     // Optional user override (e.g. https://my-custom-domain.com)
     @Value("${APP_URL:#{null}}")
     private String appUrl;
+
+    private synchronized HttpClient getHttpClient() {
+        if (httpClient == null) {
+            try {
+                httpClient = HttpClient.newBuilder()
+                        .connectTimeout(Duration.ofSeconds(10))
+                        .build();
+            } catch (Exception e) {
+                log.warn("Could not initialize HttpClient for keep-alive: {}", e.getMessage());
+            }
+        }
+        return httpClient;
+    }
 
     // Run every 10 minutes (600,000 ms) with an initial delay of 2 minutes (120,000 ms)
     @Scheduled(initialDelay = 120000, fixedRate = 600000)
@@ -49,6 +60,12 @@ public class RenderKeepAliveService {
         }
         String pingUrl = baseUrl + "ping";
 
+        HttpClient client = getHttpClient();
+        if (client == null) {
+            log.warn("HttpClient not available for keep-alive ping.");
+            return;
+        }
+
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(pingUrl))
@@ -57,7 +74,7 @@ public class RenderKeepAliveService {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             log.info("Render Keep-Alive ping to {} succeeded with HTTP {}", pingUrl, response.statusCode());
         } catch (Exception e) {
             log.warn("Render Keep-Alive ping to {} failed: {}", pingUrl, e.getMessage());
